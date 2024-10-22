@@ -1,10 +1,10 @@
 const pool = require('../config/db');
 
 // Create a new worker in the database
-const createWorker = async (name, email, phone, password, location, worktype) => {
+const createWorker = async (name, email, phone, password, area, worktype, city) => {
     const result = await pool.query(
-        'INSERT INTO workers (name, email, phone, password, location, worktype) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [name, email, phone, password, location, worktype]
+        'INSERT INTO workers (name, email, phone, password, area, worktype, city) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [name, email, phone, password, area, worktype, city]
     );
     return result.rows[0];
 };
