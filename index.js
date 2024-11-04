@@ -4,12 +4,16 @@ const authRoutes = require('./routes/authRoutes');
 const workerRoutes = require('./routes/workerRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const serviceRequestRoutes = require('./routes/serviceRequestRoutes');
+const bodyParser = require('body-parser');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(cors());
 
 // Routes
 // http://localhost:3000/auth/signup , http://localhost:3000/auth/login 
