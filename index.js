@@ -5,6 +5,7 @@ const workerRoutes = require('./routes/workerRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const serviceRequestRoutes = require('./routes/serviceRequestRoutes');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Load environment variables
 dotenv.config();
