@@ -89,7 +89,7 @@ const getAcceptedNotCompletedRequests = async (req, res) => {
     try {
         const query = `
             SELECT * FROM service_requests
-            WHERE worker_id = $1 AND accept_reject = true AND compeleted_status = false;
+            WHERE worker_id = $1 AND accept_reject = true AND completed_status = false;
         `;
         const result = await pool.query(query, [workerId]);
 
@@ -115,7 +115,7 @@ const getcompeletedRequests = async (req, res) => {
     try {
         const query = `
             SELECT * FROM service_requests
-            WHERE worker_id = $1 AND accept_reject = true AND compeleted_status = true;
+            WHERE worker_id = $1 AND accept_reject = true AND completed_status = true;
         `;
         const result = await pool.query(query, [workerId]);
 
