@@ -15,9 +15,9 @@ router.post('/login', workerLogin);
 router.get('/requests', workerAuthMiddleware, getMatchingServiceRequests);
 
 // Route to get all compeleted service requests for a worker
-router.get('/compeleted-requests', authenticateWorkerToken, getcompeletedRequests);
+router.get('/compeleted-requests', workerAuthMiddleware, getcompeletedRequests);
 
 // Route to get all accepted but completed service requests for a worker
-router.get('/accepted-requests', authenticateWorkerToken, getAcceptedNotCompletedRequests );
+router.get('/accepted-requests', workerAuthMiddleware, getAcceptedNotCompletedRequests );
 
 module.exports = router;
