@@ -82,8 +82,62 @@ const getMatchingServiceRequests = async (req, res) => {
     }
 };
 
+// Function to get accepted service requests for a worker which is not completed
+const getAcceptedNotCompletedRequests = async (req, res) => {
+    const workerId = req.worker.workerId; // Worker ID from the JWT middleware
+
+    try {
+        const query = `
+            SELECT * FROM service_requests
+            WHERE worker_id = $1 AND accept_reject = true AND compeleted_status = false;
+        `;
+        const result = await pool.query(query, [workerId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'No accepted service requests found for this worker' });
+        }
+
+        res.status(200).json({
+            message: 'Accepted service requests fetched successfully',
+            acceptedRequests: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching accepted service requests:', error);
+        res.status(500).json({ error: 'Server error while fetching accepted service requests' });
+    }
+};
+
+
+// Function to get completed service requests for a worker
+const getcompeletedRequests = async (req, res) => {
+    const workerId = req.worker.workerId; // Worker ID from the JWT middleware
+
+    try {
+        const query = `
+            SELECT * FROM service_requests
+            WHERE worker_id = $1 AND accept_reject = true AND compeleted_status = true;
+        `;
+        const result = await pool.query(query, [workerId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'No compeleted service requests found for this worker' });
+        }
+
+        res.status(200).json({
+            message: 'compeleted service requests fetched successfully',
+            acceptedRequests: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching compeleted service requests:', error);
+        res.status(500).json({ error: 'Server error while fetching compeleted service requests' });
+    }
+};
+
+
 module.exports = {
     workerSignup,
     workerLogin,
-    getMatchingServiceRequests
+    getMatchingServiceRequests,
+    getcompeletedRequests,
+    getAcceptedNotCompletedRequests
 };

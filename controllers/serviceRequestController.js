@@ -55,7 +55,7 @@ const acceptRequest = async (req, res) => {
         const workerPhone = worker.phone; // Worker phone
 
         const subject = `Service Request Accepted - Request ID: ${requestId}`;
-        const text = `Hello ${userName},\n\nYour service request (ID: ${requestId}) has been accepted by a worker.\n\nWorker Details:\nName: ${workerName}\nPhone: ${workerPhone}\n\nThank you for using our service!`;
+        const text = `Hello ${userName},\n\nYour service request (ID: ${requestId}) has been accepted by a worker.\n\nWorker Details\nName: ${workerName}\nPhone: ${workerPhone}\n\nThank you for using our service!`;
 
         // Send the email using the email service
         await sendEmail(userEmail, subject, text);
