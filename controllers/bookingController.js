@@ -1,4 +1,6 @@
 const { createServiceRequest } = require('../models/serviceRequestModel');
+const jwt = require('jsonwebtoken');
+const pool = require('../config/db'); 
 
 const bookServiceController = async (req, res) => {
     try {
@@ -37,6 +39,56 @@ const bookServiceController = async (req, res) => {
     }
 };
 
+const pendingRequests = async (req, res) => {
+    const userId = req.user.userId; // Worker ID from the JWT middleware
+
+    try {
+        const query = `
+            SELECT * FROM service_requests
+            WHERE user_id = $1 AND accept_reject = true AND completed_status = false;
+        `;
+        const result = await pool.query(query, [userId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'No pending service requests found for this user' });
+        }
+
+        res.status(200).json({
+            message: 'pending service requests fetched successfully',
+            acceptedRequests: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching pending service requests:', error);
+        res.status(500).json({ error: 'Server error while fetching pending service requests' });
+    }
+};
+
+const getcompeletedRequests = async (req, res) => {
+    const userId = req.user.userId; // Worker ID from the JWT middleware
+
+    try {
+        const query = `
+            SELECT * FROM service_requests
+            WHERE user_id = $1 AND accept_reject = true AND completed_status = true;
+        `;
+        const result = await pool.query(query, [userId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'No compeleted service requests found for this user' });
+        }
+
+        res.status(200).json({
+            message: 'compeleted service requests fetched successfully',
+            acceptedRequests: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching compeleted service requests:', error);
+        res.status(500).json({ error: 'Server error while fetching compeleted service requests' });
+    }
+};
+
 module.exports = {
     bookServiceController,
+    pendingRequests,
+    getcompeletedRequests
 };
