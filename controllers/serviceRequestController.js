@@ -33,22 +33,36 @@ const acceptRequest = async (req, res) => {
             return res.status(404).json({ message: 'Service request not found' });
         }
 
+        // Fetch worker details
+        const workerQuery = 'SELECT name, phone FROM workers WHERE srno = $1';
+        const workerResult = await pool.query(workerQuery, [workerId]);
+        const worker = workerResult.rows[0];
+
+        // Log the worker details
+        console.log('Worker details:', worker);
+
+        if (!worker) {
+            return res.status(404).json({ message: 'Worker not found' });
+        }
+
         // Accept the service request by updating the database
         const updatedRequest = await acceptServiceRequest(requestId, workerId);
 
-        // Send an email to the user after accepting the request
+        // Prepare email details
         const userEmail = serviceRequest.email;  // Email from service request data
         const userName = serviceRequest.user_name; // User name from service request data
+        const workerName = worker.name; // Worker name
+        const workerPhone = worker.phone; // Worker phone
 
         const subject = `Service Request Accepted - Request ID: ${requestId}`;
-        const text = `Hello ${userName},\n\nYour service request (ID: ${requestId}) has been accepted by a worker.`;
+        const text = `Hello ${userName},\n\nYour service request (ID: ${requestId}) has been accepted by a worker.\n\nWorker Details:\nName: ${workerName}\nPhone: ${workerPhone}\n\nThank you for using our service!`;
 
         // Send the email using the email service
         await sendEmail(userEmail, subject, text);
 
         // Return a success response after updating the database and sending the email
         return res.status(200).json({
-            message: 'Service request accepted successfully, and email sent to the user',
+            message: 'Service request accepted successfully, and detailed email sent to the user',
             request: updatedRequest
         });
     } catch (error) {
@@ -56,6 +70,7 @@ const acceptRequest = async (req, res) => {
         return res.status(500).json({ error: 'Server error while accepting service request.' });
     }
 };
+
 
 // Reject a service request
 const rejectRequest = async (req, res) => {
