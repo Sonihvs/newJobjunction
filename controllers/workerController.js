@@ -133,11 +133,38 @@ const getcompeletedRequests = async (req, res) => {
     }
 };
 
+// Function to  marke pending work completed 
+const markAsCompleted = async (req, res) => {
+    const { requestId } = req.body; // Get requestId from the request body
+    const workerId = req.worker.workerId; // Worker ID from the JWT middleware
+
+    try {
+        const result = await pool.query(
+            'UPDATE service_requests SET completed_status = true WHERE request_id = $1 AND worker_id = $2 RETURNING *',
+            [requestId, workerId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'Service request not found' });
+        }
+
+        return res.status(200).json({
+            message: 'Service request marked as completed successfully',
+            request: result.rows[0],
+        });
+    } catch (error) {
+        console.error('Error marking service request as completed:', error);
+        return res.status(500).json({ error: 'Server error while updating service request status.' });
+    }
+};
+
+
 
 module.exports = {
     workerSignup,
     workerLogin,
     getMatchingServiceRequests,
     getcompeletedRequests,
-    getAcceptedNotCompletedRequests
+    getAcceptedNotCompletedRequests,
+    markAsCompleted
 };
