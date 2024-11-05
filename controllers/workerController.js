@@ -83,7 +83,7 @@ const getMatchingServiceRequests = async (req, res) => {
 };
 
 // Function to get accepted service requests for a worker which is not completed
-const getAcceptedNotCompletedRequests = async (req, res) => {
+const pendingRequests = async (req, res) => {
     const workerId = req.worker.workerId; // Worker ID from the JWT middleware
 
     try {
@@ -165,6 +165,6 @@ module.exports = {
     workerLogin,
     getMatchingServiceRequests,
     getcompeletedRequests,
-    getAcceptedNotCompletedRequests,
+    pendingRequests,
     markAsCompleted
 };

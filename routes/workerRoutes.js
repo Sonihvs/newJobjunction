@@ -1,7 +1,7 @@
 const express = require('express');
 const { workerSignup, workerLogin } = require('../controllers/workerController');
 const workerAuthMiddleware = require('../middlewares/workerMiddleware');
-const { getMatchingServiceRequests, getcompeletedRequests, getAcceptedNotCompletedRequests, markAsCompleted } = require('../controllers/workerController');
+const { getMatchingServiceRequests, getcompeletedRequests, pendingRequests, markAsCompleted } = require('../controllers/workerController');
 
 const router = express.Router();
 
@@ -18,10 +18,10 @@ router.get('/requests', workerAuthMiddleware, getMatchingServiceRequests);
 router.get('/compeleted-requests', workerAuthMiddleware, getcompeletedRequests);
 
 // Route to get all accepted but completed service requests for a worker
-router.get('/accepted-requests', workerAuthMiddleware, getAcceptedNotCompletedRequests );
+router.get('/pending-requests', workerAuthMiddleware, pendingRequests );
 
 // Rout to mark pending work as completed
-router.post('/mark_completed', workerAuthMiddleware, markAsCompleted);
+router.post('/mark-completed', workerAuthMiddleware, markAsCompleted);
 
 
 module.exports = router;
