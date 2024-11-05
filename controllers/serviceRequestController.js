@@ -2,23 +2,6 @@ const { acceptServiceRequest, rejectServiceRequest } = require('../models/servic
 const sendEmail = require('../services/emailService');
 const pool = require('../config/db');
 
-// Accept a service request
-// const acceptRequest = async (req, res) => {
-//     const { requestId } = req.body;
-//     const workerId = req.worker.workerId; // Get worker's ID from the middleware
-
-//     try {
-//         const updatedRequest = await acceptServiceRequest(requestId, workerId);
-//         return res.status(200).json({
-//             message: 'Service request accepted successfully',
-//             request: updatedRequest
-//         });
-//     } catch (error) {
-//         console.error('Error accepting service request:', error);
-//         return res.status(500).json({ error: 'Server error while accepting service request.' });
-//     }
-// };
-
 const acceptRequest = async (req, res) => {
     const { requestId } = req.body; // Get requestId from the request body
     const workerId = req.worker.workerId; // Get workerId from the JWT middleware

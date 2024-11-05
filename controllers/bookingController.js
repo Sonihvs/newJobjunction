@@ -2,8 +2,12 @@ const { createServiceRequest } = require('../models/serviceRequestModel');
 
 const bookServiceController = async (req, res) => {
     try {
-        const { user_id, user_phone, email, user_name, area, payment_type, work_type, city } = req.body;
+        //const { user_id, user_phone, email, user_name, area, payment_type, work_type, city } = req.body;
 
+
+        const { user_phone, email, user_name, area, payment_type, work_type, city } = req.body;
+        const user_id = req.user.userId; // Extract user_id from req.user
+        
         // Add current date as request_date
         const request_date = new Date();
 

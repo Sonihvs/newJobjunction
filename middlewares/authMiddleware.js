@@ -8,7 +8,8 @@ const authenticateToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.userId;
+        //req.userId = decoded.userId;
+        req.user = { userId: decoded.userId }; // Attach userId to req.user
         next();
     } catch (err) {
         return res.status(400).json({ message: 'Invalid token.' });

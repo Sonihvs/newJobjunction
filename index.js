@@ -17,16 +17,18 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Routes
-// http://localhost:3000/auth/signup , http://localhost:3000/auth/login 
+
 //(after login it will give jwt token and to use it for next page views)
 app.use('/auth', authRoutes); 
 
-//http://localhost:3000/workers/signup , http://localhost:3000/workers/login
+
 //(after login it will give jwt token and to use it for next page views)
 app.use('/workers', workerRoutes); 
-//http://localhost:3000/services/book-service
+
+// for booking services 
 app.use('/services', bookingRoutes);
 
+// for accepting rejecting services for worker side
 app.use('/service-requests', serviceRequestRoutes);
 
 // Start the server
