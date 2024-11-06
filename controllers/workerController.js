@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db'); 
 const { createWorker, findWorkerByEmail } = require('../models/workerModel');
-const { sendEmail } = require('../services/emailService');
+const sendEmail = require('../services/emailService');
 
 // Signup logic for workers
 const workerSignup = async (req, res) => {
