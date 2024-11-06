@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db'); 
 const { createWorker, findWorkerByEmail } = require('../models/workerModel');
+const { sendEmail } = require('../services/emailService');
 
 // Signup logic for workers
 const workerSignup = async (req, res) => {
@@ -148,10 +149,21 @@ const markAsCompleted = async (req, res) => {
             return res.status(404).json({ message: 'Service request not found' });
         }
 
+        // Send email to user notifying about completion
+
+        const serviceRequest = result.rows[0];
+        const { email: userEmail, user_name: userName } = serviceRequest;
+
+        const subject = `Service Request Completed - Request ID: ${requestId}`;
+        const text = `Hello ${userName},\n\nWe are pleased to inform you that your service request (ID: ${requestId}) has been successfully completed.\n\nThank you for choosing our service!`;
+
+        await sendEmail(userEmail, subject, text);
+
         return res.status(200).json({
-            message: 'Service request marked as completed successfully',
+            message: 'Service request marked as completed successfully, and email sent to user',
             request: result.rows[0],
         });
+
     } catch (error) {
         console.error('Error marking service request as completed:', error);
         return res.status(500).json({ error: 'Server error while updating service request status.' });
