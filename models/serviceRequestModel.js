@@ -4,11 +4,11 @@ const pool = require('../config/db');
 const createServiceRequest = async (serviceRequest) => {
     const { user_id, user_phone, email, user_name, area, payment_type, work_type, request_date, city } = serviceRequest;
     const query = `
-        INSERT INTO service_requests (user_id, user_phone, email, user_name, area, payment_type, work_type, request_date, city)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        INSERT INTO service_requests (user_id, user_phone, email, user_name, area, payment_type, work_type, request_date, city, time_slot, user_data, address)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         RETURNING *;
     `;
-    const values = [user_id, user_phone, email, user_name, area, payment_type, work_type, request_date, city];
+    const values = [user_id, user_phone, email, user_name, area, payment_type, work_type, request_date, city, time_slot, user_data, address];
     const result = await pool.query(query, values);
     return result.rows[0];
 };

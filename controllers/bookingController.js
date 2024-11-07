@@ -7,7 +7,7 @@ const bookServiceController = async (req, res) => {
         //const { user_id, user_phone, email, user_name, area, payment_type, work_type, city } = req.body;
 
 
-        const { user_phone, email, user_name, area, payment_type, work_type, city } = req.body;
+        const { user_phone, email, user_name, area, payment_type, work_type, city, time_slot, user_data, address } = req.body;
         const user_id = req.user.userId; // Extract user_id from req.user
         
         // Add current date as request_date
@@ -27,7 +27,10 @@ const bookServiceController = async (req, res) => {
             payment_type,
             work_type,
             request_date,
-            city
+            city,
+            time_slot,
+            user_data,
+            address
         });
 
         res.status(201).json({

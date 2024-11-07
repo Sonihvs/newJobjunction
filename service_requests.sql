@@ -11,5 +11,9 @@ CREATE TABLE service_requests (
     request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  
     accept_reject BOOLEAN DEFAULT FALSE,  
     completed_status BOOLEAN DEFAULT FALSE,
-    city VARCHAR(100) Not NUll 
+    city VARCHAR(100) Not NUll,
+    time_slot VARCHAR(50),
+    user_data VARCHAR(50),
+    address VARCHAR(1000)
+
 );
