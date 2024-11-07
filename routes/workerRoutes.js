@@ -21,7 +21,7 @@ router.get('/compeleted-requests', workerAuthMiddleware, getcompeletedRequests);
 router.get('/pending-requests', workerAuthMiddleware, pendingRequests );
 
 // Rout to mark pending work as completed
-router.post('/mark-completed', workerAuthMiddleware, markAsCompleted);
+router.patch('/mark-completed', workerAuthMiddleware, markAsCompleted);
 
 
 module.exports = router;
