@@ -5,9 +5,9 @@ const authenticateWorkerToken = require('../middlewares/workerMiddleware');
 const router = express.Router();
 
 // Accept service request
-router.post('/accept', authenticateWorkerToken, acceptRequest);
+router.patch('/accept', authenticateWorkerToken, acceptRequest);
 
 // Reject service request
-router.post('/reject', authenticateWorkerToken, rejectRequest);
+router.patch('/reject', authenticateWorkerToken, rejectRequest);
 
 module.exports = router;
