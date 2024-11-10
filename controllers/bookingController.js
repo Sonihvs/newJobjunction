@@ -48,7 +48,7 @@ const pendingRequests = async (req, res) => {
     try {
         const query = `
             SELECT * FROM service_requests
-            WHERE user_id = $1 AND accept_reject = true AND completed_status = false;
+            WHERE user_id = $1 AND accept_reject = false OR completed_status = false;
         `;
         const result = await pool.query(query, [userId]);
 

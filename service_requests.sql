@@ -13,7 +13,7 @@ CREATE TABLE service_requests (
     completed_status BOOLEAN DEFAULT FALSE,
     city VARCHAR(100) Not NUll,
     time_slot VARCHAR(50),
-    user_data VARCHAR(50),
+    user_data VARCHAR(50),//this date
     address VARCHAR(1000)
 
 );
